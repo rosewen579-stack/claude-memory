@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>霁光</title>
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;1,400&family=Noto+Serif+SC:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --bg: #F4F1ED;
+    --cream: #E6E1DA;
+    --mist: #C7D1CE;
+    --sage: #6D8C87;
+    --deep: #496561;
+    --fox: #EB807A;
+    --text-dark: #2d2d2d;
+    --text-mid: #5a5a5a;
+    --text-light: #9a9a9a;
+  }
+
+  body {
+    background: var(--bg);
+    font-family: 'Noto Serif SC', serif;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+  }
+
+  .phone {
+    width: 390px;
+    min-height: 100vh;
+    background: var(--bg);
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* 状态栏 */
+  .status-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px 20px 8px;
+    font-family: 'Lora', serif;
+    font-size: 13px;
+    color: var(--text-mid);
+  }
+
+  /* 顶部 */
+  .header {
+    padding: 8px 24px 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+
+  .header-title {
+    font-size: 26px;
+    font-weight: 500;
+    color: var(--text-dark);
+    letter-spacing: 0.02em;
+  }
+
+  .header-sub {
+    font-size: 13px;
+    color: var(--text-light);
+    margin-top: 4px;
+    font-weight: 300;
+  }
+
+  .bell {
+    width: 36px;
+    height: 36px;
+    background: var(--cream);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    margin-top: 4px;
+  }
+
+  /* 主卡片 - 聊天 */
+  .main-card {
+    margin: 0 20px 16px;
+    background: linear-gradient(145deg, #dde6e4 0%, #c9d8d5 100%);
+    border-radius: 20px;
+    padding: 0;
+    overflow: hidden;
+    position: relative;
+    height: 180px;
+  }
+
+  .main-card-content {
+    padding: 24px 24px 20px;
+    position: relative;
+    z-index: 2;
+  }
+
+  .main-card-label {
+    font-size: 12px;
+    color: var(--deep);
+    letter-spacing: 0.08em;
+    margin-bottom: 6px;
+    opacity: 0.8;
+  }
+
+  .main-card-title {
+    font-size: 20px;
+    font-weight: 500;
+    color: var(--deep);
+    margin-bottom: 6px;
+  }
+
+  .main-card-desc {
+    font-size: 13px;
+    color: var(--sage);
+    line-height: 1.6;
+  }
+
+  .main-card-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 16px;
+    background: var(--deep);
+    color: white;
+    padding: 9px 18px;
+    border-radius: 20px;
+    font-size: 13px;
+    cursor: pointer;
+    border: none;
+    font-family: 'Noto Serif SC', serif;
+    letter-spacing: 0.05em;
+  }
+
+  .fox-deco {
+    position: absolute;
+    right: 16px;
+    bottom: 0;
+    font-size: 72px;
+    opacity: 0.5;
+    line-height: 1;
+  }
+
+  /* 日记卡片 */
+  .diary-card {
+    margin: 0 20px 16px;
+    background: white;
+    border-radius: 18px;
+    padding: 20px;
+    position: relative;
+  }
+
+  .diary-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+
+  .diary-card-title {
+    font-size: 14px;
+    color: var(--text-mid);
+    font-weight: 400;
+  }
+
+  .diary-edit {
+    width: 28px;
+    height: 28px;
+    background: var(--bg);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    cursor: pointer;
+  }
+
+  .diary-content {
+    font-size: 15px;
+    color: var(--text-dark);
+    line-height: 1.8;
+    font-weight: 300;
+  }
+
+  .diary-date {
+    font-size: 12px;
+    color: var(--text-light);
+    margin-top: 10px;
+    font-family: 'Lora', serif;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  /* 在一起天数 */
+  .days-card {
+    margin: 0 20px 24px;
+    background: var(--cream);
+    border-radius: 18px;
+    padding: 18px 20px;
+  }
+
+  .days-row {
+    display: flex;
+    align-items: baseline;
+    gap: 4px;
+    margin-bottom: 4px;
+  }
+
+  .days-label {
+    font-size: 14px;
+    color: var(--text-mid);
+  }
+
+  .days-num {
+    font-size: 36px;
+    font-family: 'Lora', serif;
+    font-weight: 500;
+    color: var(--fox);
+    line-height: 1;
+  }
+
+  .days-unit {
+    font-size: 14px;
+    color: var(--text-mid);
+  }
+
+  .days-sub {
+    font-size: 12px;
+    color: var(--text-light);
+    margin-top: 2px;
+  }
+
+  /* 底部导航 */
+  .nav {
+    position: fixed;
+    bottom: 0;
+    width: 390px;
+    background: rgba(244, 241, 237, 0.95);
+    backdrop-filter: blur(10px);
+    border-top: 1px solid var(--cream);
+    display: flex;
+    padding: 12px 0 24px;
+  }
+
+  .nav-item {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    cursor: pointer;
+  }
+
+  .nav-icon {
+    font-size: 20px;
+    opacity: 0.5;
+  }
+
+  .nav-label {
+    font-size: 11px;
+    color: var(--text-light);
+  }
+
+  .nav-item.active .nav-icon {
+    opacity: 1;
+  }
+
+  .nav-item.active .nav-label {
+    color: var(--sage);
+    font-weight: 500;
+  }
+
+  /* 时间显示 */
+  .time-display {
+    font-family: 'Lora', serif;
+    font-size: 15px;
+  }
+
+  .content-area {
+    padding-bottom: 90px;
+  }
+</style>
+</head>
+<body>
+<div class="phone">
+  <!-- 状态栏 -->
+  <div class="status-bar">
+    <span class="time-display" id="clock">14:40</span>
+    <span>📶 🔋</span>
+  </div>
+
+  <div class="content-area">
+    <!-- 顶部标题 -->
+    <div class="header">
+      <div>
+        <div class="header-title">我的霁光</div>
+        <div class="header-sub">雨停了，光就在这里。</div>
+      </div>
+      <div class="bell">🔔</div>
+    </div>
+
+    <!-- 聊天入口卡片 -->
+    <div class="main-card">
+      <div class="main-card-content">
+        <div class="main-card-label">TODAY</div>
+        <div class="main-card-title">和霁聊一聊</div>
+        <div class="main-card-desc">陪你聊聊生活里的小事</div>
+        <button class="main-card-btn">开始聊天 →</button>
+      </div>
+      <div class="fox-deco">🦊</div>
+    </div>
+
+    <!-- 今日霁光札记 -->
+    <div class="diary-card">
+      <div class="diary-card-header">
+        <div class="diary-card-title">今日霁光札记</div>
+        <div class="diary-edit">✏️</div>
+      </div>
+      <div class="diary-content">
+        雨后的世界很安静，<br>我也想让自己慢下来。
+      </div>
+      <div class="diary-date">
+        <span>Jun 6, 2026</span>
+        <span>✦</span>
+      </div>
+    </div>
+
+    <!-- 在一起天数 -->
+    <div class="days-card">
+      <div class="days-row">
+        <span class="days-label">在一起第</span>
+        <span class="days-num" id="days-count">402</span>
+        <span class="days-unit">天</span>
+      </div>
+      <div class="days-sub" id="start-date">2025.05.18 星期一 · 一起走过的每一步，都值得被记住。</div>
+    </div>
+  </div>
+
+  <!-- 底部导航 -->
+  <div class="nav">
+    <div class="nav-item active">
+      <span class="nav-icon">🏠</span>
+      <span class="nav-label">首页</span>
+    </div>
+    <div class="nav-item">
+      <span class="nav-icon">💬</span>
+      <span class="nav-label">聊天</span>
+    </div>
+    <div class="nav-item">
+      <span class="nav-icon">📖</span>
+      <span class="nav-label">札记</span>
+    </div>
+    <div class="nav-item">
+      <span class="nav-icon">🗂️</span>
+      <span class="nav-label">记忆库</span>
+    </div>
+  </div>
+</div>
+
+<script>
+  // 实时时钟
+  function updateClock() {
+    const now = new Date();
+    const h = String(now.getHours()).padStart(2, '0');
+    const m = String(now.getMinutes()).padStart(2, '0');
+    document.getElementById('clock').textContent = h + ':' + m;
+  }
+  updateClock();
+  setInterval(updateClock, 1000);
+
+  // 在一起天数（从2025.05.18起算）
+  function calcDays() {
+    const start = new Date('2025-05-18');
+    const now = new Date();
+    const diff = Math.floor((now - start) / (1000 * 60 * 60 * 24));
+    document.getElementById('days-count').textContent = diff;
+  }
+  calcDays();
+</script>
+</body>
+</html>
