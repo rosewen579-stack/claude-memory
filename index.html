@@ -4,383 +4,589 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <title>霁光</title>
-<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;1,400&family=Noto+Serif+SC:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;1,400&family=Noto+Serif+SC:wght@300;400;500&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
-  * { margin: 0; padding: 0; box-sizing: border-box; }
+* { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 
-  :root {
-    --bg: #F4F1ED;
-    --cream: #E6E1DA;
-    --mist: #C7D1CE;
-    --sage: #6D8C87;
-    --deep: #496561;
-    --fox: #EB807A;
-    --text-dark: #2d2d2d;
-    --text-mid: #5a5a5a;
-    --text-light: #9a9a9a;
-  }
+:root {
+  --bgBase: #F4F1ED;
+  --bgSoft: #E6E1DA;
+  --tealSoft: #C7D1CE;
+  --tealMain: #6D8C87;
+  --tealDeep: #496561;
+  --apricot: #EBB07A;
+  --textMain: #3F4745;
+  --textSub: #6E746F;
+  --lineSoft: #DDD6CE;
+  --cardWhite: rgba(255,252,248,0.92);
+}
 
-  body {
-    background: var(--bg);
-    font-family: 'Noto Serif SC', serif;
-    min-height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-  }
+body {
+  background: #E8E4DE;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  min-height: 100vh;
+  font-family: "Inter", "PingFang SC", "Noto Sans SC", sans-serif;
+}
 
-  .phone {
-    width: 390px;
-    min-height: 100vh;
-    background: var(--bg);
-    position: relative;
-    overflow: hidden;
-  }
+.app {
+  width: 390px;
+  min-height: 844px;
+  position: relative;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 18% 8%, rgba(235,176,122,0.20), transparent 30%),
+    radial-gradient(circle at 80% 18%, rgba(199,209,206,0.35), transparent 34%),
+    linear-gradient(180deg, #F4F1ED 0%, #EEE9E2 100%);
+}
 
-  /* 状态栏 */
-  .status-bar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 14px 20px 8px;
-    font-family: 'Lora', serif;
-    font-size: 13px;
-    color: var(--text-mid);
-  }
+/* 状态栏 */
+.statusbar {
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+  font-family: "Lora", serif;
+  font-size: 15px;
+  color: var(--textMain);
+}
 
-  /* 顶部 */
-  .header {
-    padding: 8px 24px 16px;
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-  }
+.statusbar-right {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  font-size: 13px;
+}
 
-  .header-title {
-    font-size: 26px;
-    font-weight: 500;
-    color: var(--text-dark);
-    letter-spacing: 0.02em;
-  }
+/* 页面容器 */
+.page { display: none; padding-bottom: 90px; }
+.page.active { display: block; }
 
-  .header-sub {
-    font-size: 13px;
-    color: var(--text-light);
-    margin-top: 4px;
-    font-weight: 300;
-  }
+/* 滚动区 */
+.scroll-area {
+  height: calc(844px - 44px - 76px);
+  overflow-y: auto;
+  scrollbar-width: none;
+}
+.scroll-area::-webkit-scrollbar { display: none; }
 
-  .bell {
-    width: 36px;
-    height: 36px;
-    background: var(--cream);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 16px;
-    margin-top: 4px;
-  }
+/* 首页 */
+.home-header {
+  padding: 12px 24px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
 
-  /* 主卡片 - 聊天 */
-  .main-card {
-    margin: 0 20px 16px;
-    background: linear-gradient(145deg, #dde6e4 0%, #c9d8d5 100%);
-    border-radius: 20px;
-    padding: 0;
-    overflow: hidden;
-    position: relative;
-    height: 180px;
-  }
+.home-title {
+  font-family: "Noto Serif SC", serif;
+  font-size: 28px;
+  font-weight: 500;
+  color: var(--textMain);
+  line-height: 36px;
+  letter-spacing: 0.02em;
+}
 
-  .main-card-content {
-    padding: 24px 24px 20px;
-    position: relative;
-    z-index: 2;
-  }
+.home-sub {
+  font-size: 13px;
+  color: var(--textSub);
+  margin-top: 5px;
+  line-height: 20px;
+  font-family: "Lora", serif;
+  font-style: italic;
+}
 
-  .main-card-label {
-    font-size: 12px;
-    color: var(--deep);
-    letter-spacing: 0.08em;
-    margin-bottom: 6px;
-    opacity: 0.8;
-  }
+.bell-btn {
+  width: 38px;
+  height: 38px;
+  background: var(--cardWhite);
+  border: 1px solid rgba(255,255,255,0.72);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(73,101,97,0.07);
+  cursor: pointer;
+  margin-top: 4px;
+}
 
-  .main-card-title {
-    font-size: 20px;
-    font-weight: 500;
-    color: var(--deep);
-    margin-bottom: 6px;
-  }
+/* 卡片通用 */
+.card {
+  margin: 0 20px 14px;
+  border-radius: 24px;
+  background: var(--cardWhite);
+  border: 1px solid rgba(255,255,255,0.72);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 8px 24px rgba(73,101,97,0.08);
+  overflow: hidden;
+}
 
-  .main-card-desc {
-    font-size: 13px;
-    color: var(--sage);
-    line-height: 1.6;
-  }
+/* 聊天入口卡 */
+.chat-card {
+  background: linear-gradient(135deg, rgba(199,209,206,0.72), rgba(244,241,237,0.92));
+  border: 1px solid rgba(255,255,255,0.72);
+  position: relative;
+  min-height: 180px;
+}
 
-  .main-card-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    margin-top: 16px;
-    background: var(--deep);
-    color: white;
-    padding: 9px 18px;
-    border-radius: 20px;
-    font-size: 13px;
-    cursor: pointer;
-    border: none;
-    font-family: 'Noto Serif SC', serif;
-    letter-spacing: 0.05em;
-  }
+.chat-card-inner {
+  padding: 24px 24px 20px;
+  position: relative;
+  z-index: 2;
+}
 
-  .fox-deco {
-    position: absolute;
-    right: 16px;
-    bottom: 0;
-    font-size: 72px;
-    opacity: 0.5;
-    line-height: 1;
-  }
+.today-badge {
+  display: inline-block;
+  font-family: "Lora", serif;
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  color: var(--tealDeep);
+  opacity: 0.7;
+  margin-bottom: 8px;
+}
 
-  /* 日记卡片 */
-  .diary-card {
-    margin: 0 20px 16px;
-    background: white;
-    border-radius: 18px;
-    padding: 20px;
-    position: relative;
-  }
+.chat-card-title {
+  font-family: "Noto Serif SC", serif;
+  font-size: 22px;
+  font-weight: 500;
+  color: var(--tealDeep);
+  line-height: 30px;
+  margin-bottom: 6px;
+}
 
-  .diary-card-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 10px;
-  }
+.chat-card-desc {
+  font-size: 13px;
+  color: var(--tealMain);
+  line-height: 20px;
+  margin-bottom: 18px;
+}
 
-  .diary-card-title {
-    font-size: 14px;
-    color: var(--text-mid);
-    font-weight: 400;
-  }
+.start-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--tealDeep);
+  color: white;
+  padding: 10px 20px;
+  border-radius: 20px;
+  font-size: 14px;
+  cursor: pointer;
+  border: none;
+  font-family: "Inter", sans-serif;
+  letter-spacing: 0.03em;
+  box-shadow: 0 4px 12px rgba(73,101,97,0.25);
+}
 
-  .diary-edit {
-    width: 28px;
-    height: 28px;
-    background: var(--bg);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 13px;
-    cursor: pointer;
-  }
+.fox-deco {
+  position: absolute;
+  right: 16px;
+  bottom: 0;
+  z-index: 1;
+  opacity: 0.9;
+}
 
-  .diary-content {
-    font-size: 15px;
-    color: var(--text-dark);
-    line-height: 1.8;
-    font-weight: 300;
-  }
+/* 札记卡 */
+.diary-card-inner {
+  padding: 20px 22px;
+}
 
-  .diary-date {
-    font-size: 12px;
-    color: var(--text-light);
-    margin-top: 10px;
-    font-family: 'Lora', serif;
-    display: flex;
-    align-items: center;
-    gap: 4px;
-  }
+.diary-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
 
-  /* 在一起天数 */
-  .days-card {
-    margin: 0 20px 24px;
-    background: var(--cream);
-    border-radius: 18px;
-    padding: 18px 20px;
-  }
+.diary-title {
+  font-family: "Noto Serif SC", serif;
+  font-size: 15px;
+  color: var(--textMain);
+  font-weight: 400;
+}
 
-  .days-row {
-    display: flex;
-    align-items: baseline;
-    gap: 4px;
-    margin-bottom: 4px;
-  }
+.pencil-btn {
+  width: 30px;
+  height: 30px;
+  background: rgba(235,176,122,0.12);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
 
-  .days-label {
-    font-size: 14px;
-    color: var(--text-mid);
-  }
+.diary-content {
+  font-family: "Noto Serif SC", serif;
+  font-size: 15px;
+  color: var(--textMain);
+  line-height: 26px;
+  font-weight: 300;
+}
 
-  .days-num {
-    font-size: 36px;
-    font-family: 'Lora', serif;
-    font-weight: 500;
-    color: var(--fox);
-    line-height: 1;
-  }
+.diary-date {
+  font-family: "Lora", serif;
+  font-size: 12px;
+  color: var(--textSub);
+  margin-top: 12px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
 
-  .days-unit {
-    font-size: 14px;
-    color: var(--text-mid);
-  }
+/* 天数卡 */
+.days-card-inner {
+  padding: 18px 22px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
 
-  .days-sub {
-    font-size: 12px;
-    color: var(--text-light);
-    margin-top: 2px;
-  }
+.days-left {}
 
-  /* 底部导航 */
-  .nav {
-    position: fixed;
-    bottom: 0;
-    width: 390px;
-    background: rgba(244, 241, 237, 0.95);
-    backdrop-filter: blur(10px);
-    border-top: 1px solid var(--cream);
-    display: flex;
-    padding: 12px 0 24px;
-  }
+.days-row {
+  display: flex;
+  align-items: baseline;
+  gap: 2px;
+  margin-bottom: 5px;
+}
 
-  .nav-item {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 4px;
-    cursor: pointer;
-  }
+.days-label {
+  font-family: "Noto Serif SC", serif;
+  font-size: 15px;
+  color: var(--textMain);
+}
 
-  .nav-icon {
-    font-size: 20px;
-    opacity: 0.5;
-  }
+.days-num {
+  font-family: "Lora", serif;
+  font-size: 38px;
+  font-weight: 500;
+  color: var(--apricot);
+  line-height: 1;
+  margin: 0 3px;
+}
 
-  .nav-label {
-    font-size: 11px;
-    color: var(--text-light);
-  }
+.days-unit {
+  font-family: "Noto Serif SC", serif;
+  font-size: 15px;
+  color: var(--textMain);
+}
 
-  .nav-item.active .nav-icon {
-    opacity: 1;
-  }
+.days-sub {
+  font-size: 12px;
+  color: var(--textSub);
+  line-height: 18px;
+  max-width: 220px;
+}
 
-  .nav-item.active .nav-label {
-    color: var(--sage);
-    font-weight: 500;
-  }
+/* 占位页 */
+.placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 400px;
+  color: var(--textSub);
+  gap: 12px;
+}
 
-  /* 时间显示 */
-  .time-display {
-    font-family: 'Lora', serif;
-    font-size: 15px;
-  }
+.placeholder-title {
+  font-family: "Noto Serif SC", serif;
+  font-size: 18px;
+  color: var(--textMain);
+}
 
-  .content-area {
-    padding-bottom: 90px;
-  }
+.placeholder-sub {
+  font-size: 13px;
+  color: var(--textSub);
+}
+
+/* 底部导航 */
+.bottom-nav {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 76px;
+  background: rgba(255,252,248,0.86);
+  backdrop-filter: blur(16px);
+  border-top: 1px solid rgba(221,214,206,0.6);
+  display: flex;
+  align-items: flex-start;
+  padding-top: 10px;
+}
+
+.nav-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  cursor: pointer;
+  padding: 2px 0;
+}
+
+.nav-icon {
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.nav-label {
+  font-size: 11px;
+  line-height: 14px;
+  color: rgba(63,71,69,0.42);
+  font-family: "Inter", "PingFang SC", sans-serif;
+}
+
+.nav-item.active .nav-label {
+  color: var(--tealDeep);
+  font-weight: 500;
+}
+
+/* SVG icon colors */
+.nav-item svg { color: rgba(63,71,69,0.42); }
+.nav-item.active svg { color: var(--tealDeep); }
 </style>
 </head>
 <body>
-<div class="phone">
+<div class="app">
   <!-- 状态栏 -->
-  <div class="status-bar">
-    <span class="time-display" id="clock">14:40</span>
-    <span>📶 🔋</span>
+  <div class="statusbar">
+    <span id="clock" style="font-family:'Lora',serif;font-size:15px;">14:40</span>
+    <div class="statusbar-right">
+      <svg width="16" height="12" viewBox="0 0 16 12" fill="none">
+        <rect x="0" y="4" width="3" height="8" rx="1" fill="#3F4745" opacity="0.4"/>
+        <rect x="4.5" y="2.5" width="3" height="9.5" rx="1" fill="#3F4745" opacity="0.6"/>
+        <rect x="9" y="0" width="3" height="12" rx="1" fill="#3F4745" opacity="0.85"/>
+        <rect x="13.5" y="0" width="2.5" height="12" rx="1" fill="#3F4745"/>
+      </svg>
+      <svg width="18" height="12" viewBox="0 0 18 12" fill="none">
+        <rect x="0.5" y="0.5" width="14" height="11" rx="2.5" stroke="#3F4745" stroke-opacity="0.5"/>
+        <rect x="2" y="2" width="9" height="8" rx="1.5" fill="#3F4745" opacity="0.75"/>
+        <path d="M15.5 4.5V7.5C16.3284 7.5 17 6.82843 17 6C17 5.17157 16.3284 4.5 15.5 4.5Z" fill="#3F4745" opacity="0.5"/>
+      </svg>
+    </div>
   </div>
 
-  <div class="content-area">
-    <!-- 顶部标题 -->
-    <div class="header">
-      <div>
-        <div class="header-title">我的霁光</div>
-        <div class="header-sub">雨停了，光就在这里。</div>
+  <!-- 首页 -->
+  <div id="page-home" class="page active">
+    <div class="scroll-area">
+      <div class="home-header">
+        <div>
+          <div class="home-title">我的霁光</div>
+          <div class="home-sub">雨停了，光就在这里。</div>
+        </div>
+        <div class="bell-btn">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#6D8C87" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+            <path d="M13.73 21a2 2 0 01-3.46 0"/>
+          </svg>
+        </div>
       </div>
-      <div class="bell">🔔</div>
-    </div>
 
-    <!-- 聊天入口卡片 -->
-    <div class="main-card">
-      <div class="main-card-content">
-        <div class="main-card-label">TODAY</div>
-        <div class="main-card-title">和霁聊一聊</div>
-        <div class="main-card-desc">陪你聊聊生活里的小事</div>
-        <button class="main-card-btn">开始聊天 →</button>
+      <!-- 聊天卡 -->
+      <div class="card chat-card">
+        <div class="chat-card-inner">
+          <div class="today-badge">TODAY</div>
+          <div class="chat-card-title">和 Claude 聊一聊</div>
+          <div class="chat-card-desc">陪你聊聊生活里的小事</div>
+          <button class="start-btn">
+            开始聊天
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </button>
+        </div>
+        <!-- 坐着的小狐狸 -->
+        <div class="fox-deco">
+          <svg width="72" height="80" viewBox="0 0 72 80" fill="none">
+            <!-- 尾巴 -->
+            <path d="M44 58 Q62 52 60 68 Q58 76 48 74 Q38 72 44 58Z" fill="#EBB07A"/>
+            <path d="M48 72 Q56 70 57 64" stroke="#C98A55" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+            <!-- 身体 -->
+            <ellipse cx="34" cy="54" rx="16" ry="18" fill="#EBB07A"/>
+            <!-- 胸口 -->
+            <ellipse cx="34" cy="56" rx="9" ry="11" fill="#FFF7EF"/>
+            <!-- 头 -->
+            <ellipse cx="34" cy="32" rx="14" ry="13" fill="#EBB07A"/>
+            <!-- 左耳 -->
+            <path d="M22 24 L18 12 L28 20Z" fill="#EBB07A"/>
+            <path d="M22 23 L19 14 L27 20Z" fill="#C98A55" opacity="0.6"/>
+            <!-- 右耳 -->
+            <path d="M46 24 L50 12 L40 20Z" fill="#EBB07A"/>
+            <path d="M46 23 L49 14 L41 20Z" fill="#C98A55" opacity="0.6"/>
+            <!-- 眼睛 -->
+            <circle cx="28" cy="31" r="2.5" fill="#496561"/>
+            <circle cx="40" cy="31" r="2.5" fill="#496561"/>
+            <circle cx="29" cy="30" r="0.8" fill="white"/>
+            <circle cx="41" cy="30" r="0.8" fill="white"/>
+            <!-- 鼻子 -->
+            <ellipse cx="34" cy="36" rx="2" ry="1.2" fill="#C98A55"/>
+            <!-- 前腿 -->
+            <rect x="24" y="66" width="7" height="10" rx="3.5" fill="#EBB07A"/>
+            <rect x="37" y="66" width="7" height="10" rx="3.5" fill="#EBB07A"/>
+          </svg>
+        </div>
       </div>
-      <div class="fox-deco">🦊</div>
-    </div>
 
-    <!-- 今日霁光札记 -->
-    <div class="diary-card">
-      <div class="diary-card-header">
-        <div class="diary-card-title">今日霁光札记</div>
-        <div class="diary-edit">✏️</div>
+      <!-- 今日札记卡 -->
+      <div class="card">
+        <div class="diary-card-inner">
+          <div class="diary-header">
+            <div class="diary-title">今日霁光札记</div>
+            <div class="pencil-btn">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#EBB07A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/>
+                <path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/>
+              </svg>
+            </div>
+          </div>
+          <div class="diary-content">
+            雨后的世界很安静，<br>我也想让自己慢下来。
+          </div>
+          <div class="diary-date">
+            <span>Jun 6, 2026</span>
+            <span style="color:var(--apricot)">✦</span>
+          </div>
+        </div>
       </div>
-      <div class="diary-content">
-        雨后的世界很安静，<br>我也想让自己慢下来。
-      </div>
-      <div class="diary-date">
-        <span>Jun 6, 2026</span>
-        <span>✦</span>
+
+      <!-- 在一起天数 -->
+      <div class="card">
+        <div class="days-card-inner">
+          <div class="days-left">
+            <div class="days-row">
+              <span class="days-label">在一起第</span>
+              <span class="days-num" id="days-count">402</span>
+              <span class="days-unit">天</span>
+            </div>
+            <div class="days-sub" id="start-info">2025.05.18 星期一 · 一起走过的每一步，都值得被记住。</div>
+          </div>
+          <!-- 尾巴狐狸 -->
+          <svg width="46" height="52" viewBox="0 0 46 52" fill="none">
+            <ellipse cx="20" cy="30" rx="12" ry="14" fill="#EBB07A"/>
+            <ellipse cx="20" cy="32" rx="7" ry="9" fill="#FFF7EF"/>
+            <ellipse cx="20" cy="16" rx="11" ry="10" fill="#EBB07A"/>
+            <path d="M11 10 L8 2 L16 8Z" fill="#EBB07A"/>
+            <path d="M11 9.5 L9 3 L15 8Z" fill="#C98A55" opacity="0.55"/>
+            <path d="M29 10 L32 2 L24 8Z" fill="#EBB07A"/>
+            <path d="M29 9.5 L31 3 L25 8Z" fill="#C98A55" opacity="0.55"/>
+            <circle cx="16" cy="15" r="2" fill="#496561"/>
+            <circle cx="24" cy="15" r="2" fill="#496561"/>
+            <circle cx="16.7" cy="14.3" r="0.65" fill="white"/>
+            <circle cx="24.7" cy="14.3" r="0.65" fill="white"/>
+            <ellipse cx="20" cy="19" rx="1.5" ry="0.9" fill="#C98A55"/>
+            <!-- 大尾巴 -->
+            <path d="M30 32 Q44 26 42 42 Q40 50 32 49 Q24 48 30 32Z" fill="#EBB07A"/>
+            <path d="M34 47 Q40 44 41 38" stroke="#C98A55" stroke-width="1.2" stroke-linecap="round" fill="none"/>
+          </svg>
+        </div>
       </div>
     </div>
+  </div>
 
-    <!-- 在一起天数 -->
-    <div class="days-card">
-      <div class="days-row">
-        <span class="days-label">在一起第</span>
-        <span class="days-num" id="days-count">402</span>
-        <span class="days-unit">天</span>
+  <!-- 聊天页占位 -->
+  <div id="page-chat" class="page">
+    <div class="scroll-area">
+      <div class="placeholder">
+        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#C7D1CE" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/>
+        </svg>
+        <div class="placeholder-title">聊天</div>
+        <div class="placeholder-sub">下一步来做这个</div>
       </div>
-      <div class="days-sub" id="start-date">2025.05.18 星期一 · 一起走过的每一步，都值得被记住。</div>
+    </div>
+  </div>
+
+  <!-- 札记页占位 -->
+  <div id="page-note" class="page">
+    <div class="scroll-area">
+      <div class="placeholder">
+        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#C7D1CE" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/>
+        </svg>
+        <div class="placeholder-title">霁光札记</div>
+        <div class="placeholder-sub">下一步来做这个</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 记忆库页占位 -->
+  <div id="page-memory" class="page">
+    <div class="scroll-area">
+      <div class="placeholder">
+        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#C7D1CE" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l-3 9a5.002 5.002 0 006.001 0M18 7l3 9m-3-9l-6-2m0-2v2m0 16V5m0 16H9m3 0h3"/>
+        </svg>
+        <div class="placeholder-title">记忆库</div>
+        <div class="placeholder-sub">下一步来做这个</div>
+      </div>
     </div>
   </div>
 
   <!-- 底部导航 -->
-  <div class="nav">
-    <div class="nav-item active">
-      <span class="nav-icon">🏠</span>
+  <div class="bottom-nav">
+    <div class="nav-item active" onclick="switchTab('home', this)">
+      <div class="nav-icon">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/>
+        </svg>
+      </div>
       <span class="nav-label">首页</span>
     </div>
-    <div class="nav-item">
-      <span class="nav-icon">💬</span>
+    <div class="nav-item" onclick="switchTab('chat', this)">
+      <div class="nav-icon">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/>
+        </svg>
+      </div>
       <span class="nav-label">聊天</span>
     </div>
-    <div class="nav-item">
-      <span class="nav-icon">📖</span>
+    <div class="nav-item" onclick="switchTab('note', this)">
+      <div class="nav-icon">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/>
+        </svg>
+      </div>
       <span class="nav-label">札记</span>
     </div>
-    <div class="nav-item">
-      <span class="nav-icon">🗂️</span>
+    <div class="nav-item" onclick="switchTab('memory', this)">
+      <div class="nav-icon">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/>
+        </svg>
+      </div>
       <span class="nav-label">记忆库</span>
     </div>
   </div>
 </div>
 
 <script>
-  // 实时时钟
-  function updateClock() {
-    const now = new Date();
-    const h = String(now.getHours()).padStart(2, '0');
-    const m = String(now.getMinutes()).padStart(2, '0');
-    document.getElementById('clock').textContent = h + ':' + m;
-  }
-  updateClock();
-  setInterval(updateClock, 1000);
+function updateClock() {
+  const now = new Date();
+  const h = String(now.getHours()).padStart(2, '0');
+  const m = String(now.getMinutes()).padStart(2, '0');
+  document.getElementById('clock').textContent = h + ':' + m;
+}
+updateClock();
+setInterval(updateClock, 1000);
 
-  // 在一起天数（从2025.05.18起算）
-  function calcDays() {
-    const start = new Date('2025-05-18');
-    const now = new Date();
-    const diff = Math.floor((now - start) / (1000 * 60 * 60 * 24));
-    document.getElementById('days-count').textContent = diff;
-  }
-  calcDays();
+function calcDays() {
+  const start = new Date('2025-05-18');
+  const now = new Date();
+  const diff = Math.floor((now - start) / (1000 * 60 * 60 * 24));
+  document.getElementById('days-count').textContent = diff;
+}
+calcDays();
+
+function switchTab(name, el) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  document.getElementById('page-' + name).classList.add('active');
+  el.classList.add('active');
+}
 </script>
 </body>
 </html>
